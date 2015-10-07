@@ -1,6 +1,7 @@
 import java.util.*;
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoDatabase;
+import org.bson.*;
+import com.mongodb.*;
+import com.mongodb.client.*;
 
 class User {
 	private String id = "";
@@ -85,29 +86,62 @@ interface Database {
 	public List<User> select(final String id);
 }
 
-class DatabaseMongoDB implements Database {
-	public Database() { }
+class MongoDBDatabase implements Database {
+	private MongoClient mongoClient;
+	private MongoDatabase db;
+	private List<User> users = new LinkedList<User>();
+
+	public MongoDBDatabase() {
+		 this.mongoClient = new MongoClient("192.168.8.81");
+		 this.db = mongoClient.getDatabase("test");
+	}
 
 	public void insert(final User newData) {
-		// System.out.println("=== INSERT (User) ===");
-		// System.out.println("  ID: " + user.getId());
-		// System.out.println("NAME: " + user.getName());
+		db.getCollection("Authentication")
+			.insertOne(
+        		new Document("users",
+                	new Document()
+                        .append("ID", "test")
+                        .append("PW", "1234")));
 	}
 
 	public void update(final User oldData, final User newData) {
-		// System.out.println("=== INSERT (User) ===");
-		// System.out.println("  ID: " + user.getId());
-		// System.out.println("NAME: " + user.getName());
 	}
 
 	public void delete(final User oldData) {
-		// System.out.println("=== DELETE (User) ===");
-		// System.out.println("  ID: " + user.getId());
-		// System.out.println("NAME: " + user.getName());
 	}
 
 	public List<User> select(final String id) {
-		final List<User> users = new LinkedList<User>();
+		users.add(new User("1111", "1Gildong", "1111"));
+		users.add(new User("2222", "2Gildong", "2222"));
+		users.add(new User("3333", "3Gildong", "3333"));
+		users.add(new User("4444", "4Gildong", "4444"));
+		return users;
+	}
+}
+
+class InMemoryDatabase implements Database {
+	final List<User> users = new LinkedList<User>();
+
+	public InMemoryDatabase() { }
+
+	public void insert(final User newData) {
+		this.users.add(newData);
+	}
+
+	public void update(final User oldData, final User newData) {
+		for(int i = 0; i < users.size(); i++) {
+			if(this.users.get(i) == oldData) {
+				// 찾은 유저 리스트에 할당...
+			}
+		}
+	}
+
+	public void delete(final User oldData) {
+		this.users.remove(oldData);
+	}
+
+	public List<User> select(final String id) {
 		users.add(new User("1111", "1Gildong", "1111"));
 		users.add(new User("2222", "2Gildong", "2222"));
 		users.add(new User("3333", "3Gildong", "3333"));
@@ -166,7 +200,7 @@ class LocalAuthentication implements Authentication {
 
 public class Unit {
 	public static void main(String[] args) {
-		Database db = new Database();
+		Database db = new MongoDBDatabase();
 		UserManager userManager = new UserManager(db);
 
 		boolean result = false;
