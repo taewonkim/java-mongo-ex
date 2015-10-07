@@ -1,4 +1,6 @@
 import java.util.*;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoDatabase;
 
 class User {
 	private String id = "";
@@ -76,8 +78,14 @@ class UserManager {
 	}
 }
 
+interface Database {
+	public void insert(final User newData);
+	public void update(final User oldData, final User newData);
+	public void delete(final User oldData);
+	public List<User> select(final String id);
+}
 
-class Database {
+class DatabaseMongoDB implements Database {
 	public Database() { }
 
 	public void insert(final User newData) {
