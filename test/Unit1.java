@@ -1,6 +1,6 @@
 import main.*;
 
-public class Unit {
+public class Unit1 {
 	public static void main(String[] args) {
 		Database db = new MongoConnectDatabase();
 		UserManager userManager = new UserManager(db);
