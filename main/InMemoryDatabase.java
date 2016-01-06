@@ -11,7 +11,7 @@ public class InMemoryDatabase implements Database {
 		this.users.add(newData);
 	}
 
-	public void update(final User oldData, final User newData) {
+	public void update(final User newData) {
 		for(int i = 0; i < users.size(); i++) {
 			if(this.users.get(i) == oldData) {
 				// 찾은 유저 리스트에 할당...

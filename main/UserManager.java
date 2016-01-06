@@ -19,13 +19,15 @@ public class UserManager {
 			db.delete(user);
 	}
 
-	public User findUser(final String id) {
-		final List<User> users = db.select(id);
+	public List<User> findUser(final String id) {
+		return db.select(id);
+		/*
 		for(User user : users) {
 			if(user.getId().compareTo(id) == 0) {
 				return user;
 			}
 		}
 		return null;
+		*/
 	}
 }

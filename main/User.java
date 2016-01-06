@@ -27,6 +27,10 @@ public class User {
 		return this.logined;
 	}
 
+	public String getPassword() {
+		return this.password;
+	}
+
 	public boolean verifyPassword(final String password) {
 		return verify(this.password, password);
 	}

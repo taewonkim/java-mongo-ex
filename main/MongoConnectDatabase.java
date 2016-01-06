@@ -7,26 +7,32 @@ import com.mongodb.client.*;
 
 public class MongoConnectDatabase implements Database {
 	private MongoClient mongoClient;
-	private MongoDatabase db;
-	private List<User> users = new LinkedList<User>();
+	//private MongoDatabase db;
+	private DB db;
+	private DBCollection dbCollection;
 
 	public MongoConnectDatabase() {
-		 this.mongoClient = new MongoClient("192.168.8.81");
-		 this.db = mongoClient.getDatabase("test");
+		 this.mongoClient = new MongoClient("192.168.1.108");
+		 //this.db = this.mongoClient.getDatabase("test");
+		 this.db = this.mongoClient.getDB("test");
+		 this.dbCollection = this.db.getCollection("Authentication");
 	}
 
 	@Override
 	public void insert(final User newData) {
-		db.getCollection("Authentication")
-			.insertOne(
-        		new Document("users",
-                	new Document()
-                        .append("ID", "test")
-                        .append("PW", "1234")));
+		BasicDBObject doc = new BasicDBObject("name", "users")
+						.append("U_ID", newData.getId())
+                        .append("U_PW", newData.getPassword())
+		                .append("U_NAME", newData.getName());
+		dbCollection.insert(doc);
 	}
 
 	@Override
-	public void update(final User oldData, final User newData) {
+	public void update(final String filterId, final User newData) {
+		// User.Name = get("Name")
+		//if(newData.get("id").equals(uId)) {
+			// processing...
+		//}
 	}
 
 	@Override
@@ -35,10 +41,21 @@ public class MongoConnectDatabase implements Database {
 
 	@Override
 	public List<User> select(final String id) {
-		users.add(new User("1111", "1Gildong", "1111"));
-		users.add(new User("2222", "2Gildong", "2222"));
-		users.add(new User("3333", "3Gildong", "3333"));
-		users.add(new User("4444", "4Gildong", "4444"));
+		List<User> users = new LinkedList<User>();
+		//BasicDBObject filter = new BasicDBObject("U_ID", id);
+		BasicDBObject filter = new BasicDBObject();
+		DBCursor cursor = dbCollection.find(filter);
+		try {
+			while(cursor.hasNext()) {
+				DBObject dbObject = cursor.next();
+				String uId = dbObject.get("U_ID").toString();
+				String uName = dbObject.get("U_PW").toString();
+				String uPw = dbObject.get("U_NAME").toString();
+				users.add(new User(uId, uName, uPw));
+			}
+		} finally {
+			cursor.close();
+		}
 		return users;
 	}
 }
