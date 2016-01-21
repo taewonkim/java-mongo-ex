@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+  version="3.0"
+  metadata-complete="true">
+
+  <context-param>
+    <param-name>dbConnectUrl</param-name>
+    <param-value>jdbc:mysql://192.168.0.8:3306/identity</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>dbUsername</param-name>
+    <param-value>t1kim</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>dbPassword</param-name>
+    <param-value>12qwas</param-value>
+  </context-param>
+
+  <servlet>
+    <servlet-name>HelloWorldServlet</servlet-name>
+    <servlet-class>mypkg.HelloServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>SigninServlet</servlet-name>
+    <servlet-class>sso.SigninServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>SignoutServlet</servlet-name>
+    <servlet-class>sso.SignoutServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>SignedServlet</servlet-name>
+    <servlet-class>sso.SignedServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>HelloWorldServlet</servlet-name>
+    <url-pattern>/sayhello</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SigninServlet</servlet-name>
+    <url-pattern>/signin</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SignoutServlet</servlet-name>
+    <url-pattern>/signout</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SignedServlet</servlet-name>
+    <url-pattern>/signed</url-pattern>
+  </servlet-mapping>
+
+</web-app>
