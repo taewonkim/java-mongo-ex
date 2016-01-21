@@ -28,7 +28,7 @@ public class MongoConnectDatabase implements Database {
 	}
 
 	@Override
-	public void update(final String filterId, final User newData) {
+	public void update(final User newData) {
 		// User.Name = get("Name")
 		//if(newData.get("id").equals(uId)) {
 			// processing...

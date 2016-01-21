@@ -22,10 +22,6 @@ public class LocalAuthentication implements Authentication {
 		return result;
 	}
 
-	private void loginedUser(User user) {
-		loginedUser = user;
-	}
-
 	@Override
 	public void logout() {
 		loginedUser = null;
@@ -37,5 +33,9 @@ public class LocalAuthentication implements Authentication {
 		if(loginedUser != null && loginedUser.getLogined())
 			result = true;
 		return result;
+	}
+
+	private void loginedUser(User user) {
+		loginedUser = user;
 	}
 }
