@@ -1,5 +1,6 @@
 <%@page language="java" contentType="text/html;charset=utf-8" pageEncoding="UTF-8" session="true"%>
 
+
 <%
 	String user_id = (String) session.getAttribute("user_id");
 	if(user_id == null) {
